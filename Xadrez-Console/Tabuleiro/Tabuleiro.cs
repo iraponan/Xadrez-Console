@@ -44,7 +44,7 @@
             }
         }
 
-        public bool posicaoValidada(Posicao posicao) {
+        public bool posicaoValida(Posicao posicao) {
             if (posicao.linha < 0 || posicao.linha >= linhas || posicao.coluna < 0 || posicao.coluna >= colunas) {
                 return false;
             }
@@ -52,7 +52,7 @@
         }
 
         public void validarPosicao(Posicao posicao) {
-            if (!posicaoValidada(posicao)) {
+            if (!posicaoValida(posicao)) {
                 throw new TabuleiroException("Posição inválida!");
             }
         }

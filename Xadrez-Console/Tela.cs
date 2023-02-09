@@ -3,39 +3,78 @@ using Xadrez_Console.Tabuleiro;
 
 namespace Xadrez_Console {
     internal class Tela {
-        public static void imprimirTabuleiro(Xadrez_Console.Tabuleiro.Tabuleiro tabuleiro) {
-
-            Console.BackgroundColor= ConsoleColor.Blue;
+        public static void imprimirTabuleiro(Tabuleiro.Tabuleiro tabuleiro) {
+            Console.Clear();
+            Console.BackgroundColor = ConsoleColor.DarkBlue;
+            Console.ForegroundColor = ConsoleColor.Cyan;
             Console.Clear();
 
             for (int i = 0; i < tabuleiro.linhas; i++) {
                 Console.Write(8 - i + " ");
                 for (int j = 0; j < tabuleiro.colunas; j++) {
-                    if (tabuleiro.peca(i, j) == null) {
-                        Console.Write("- ");
-                    }
-                    else {
-                        imprimirPeca(tabuleiro.peca(i, j));
-                        Console.Write(" ");
-                    }
+                    imprimirPeca(tabuleiro.peca(i, j));
                 }
                 Console.WriteLine();
             }
             Console.WriteLine("  A B C D E F G H");
+
+            Console.ForegroundColor = ConsoleColor.Green;
+
+            Console.WriteLine();
+        }
+
+        internal static void imprimirTabuleiro(Tabuleiro.Tabuleiro tabuleiro, bool[,] posicoesPossiveis) {
+            Console.Clear();
+            Console.BackgroundColor = ConsoleColor.DarkBlue;
+            Console.ForegroundColor = ConsoleColor.Cyan;
+            Console.Clear();
+
+            ConsoleColor fundoOriginal = Console.BackgroundColor;
+            ConsoleColor fundoAlterado = ConsoleColor.Gray;
+
+            for (int i = 0; i < tabuleiro.linhas; i++) {
+                Console.Write(8 - i + " ");
+                for (int j = 0; j < tabuleiro.colunas; j++) {
+                    if (posicoesPossiveis[i, j]) {
+                        Console.BackgroundColor = ConsoleColor.Gray;
+                        Console.ForegroundColor = ConsoleColor.DarkRed;
+                    }
+                    else {
+                        Console.BackgroundColor = ConsoleColor.DarkBlue;
+                        Console.ForegroundColor = ConsoleColor.Cyan;
+                    }
+                    imprimirPeca(tabuleiro.peca(i, j));
+                    Console.BackgroundColor = ConsoleColor.DarkBlue;
+                    Console.ForegroundColor = ConsoleColor.Cyan;
+                }
+                Console.WriteLine();
+            }
+            Console.WriteLine("  A B C D E F G H");
+
+            Console.ForegroundColor = ConsoleColor.Green;
+            Console.BackgroundColor = ConsoleColor.DarkBlue;
+
+            Console.WriteLine();
         }
 
         public static void imprimirPeca(Peca peca) {
-            if (peca.cor == Cor.Branco) {
-                ConsoleColor aux = Console.ForegroundColor;
-                Console.ForegroundColor = ConsoleColor.White;
-                Console.Write(peca);
-                Console.ForegroundColor = aux;
+            if (peca == null) {
+                Console.Write("- ");
             }
             else {
-                ConsoleColor aux = Console.ForegroundColor;
-                Console.ForegroundColor = ConsoleColor.Black;
-                Console.Write(peca);
-                Console.ForegroundColor = aux;
+                if (peca.cor == Cor.Branco) {
+                    ConsoleColor aux = Console.ForegroundColor;
+                    Console.ForegroundColor = ConsoleColor.White;
+                    Console.Write(peca);
+                    Console.ForegroundColor = aux;
+                }
+                else {
+                    ConsoleColor aux = Console.ForegroundColor;
+                    Console.ForegroundColor = ConsoleColor.Black;
+                    Console.Write(peca);
+                    Console.ForegroundColor = aux;
+                }
+                Console.Write(" ");
             }
         }
 
