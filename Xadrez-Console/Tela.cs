@@ -1,13 +1,16 @@
-﻿using Xadrez_Console.JogoDoXadrez;
+﻿using System.Xml;
+using Xadrez_Console.JogoDoXadrez;
 using Xadrez_Console.Tabuleiro;
 
 namespace Xadrez_Console {
     internal class Tela {
-        public static void imprimirTabuleiro(Tabuleiro.Tabuleiro tabuleiro) {
+        public static void imprimirTabuleiro(PartidaDeXadrez partida) {
             Console.Clear();
             Console.BackgroundColor = ConsoleColor.DarkBlue;
             Console.ForegroundColor = ConsoleColor.Cyan;
             Console.Clear();
+
+            Tabuleiro.Tabuleiro tabuleiro = partida.tabuleiro;
 
             for (int i = 0; i < tabuleiro.linhas; i++) {
                 Console.Write(8 - i + " ");
@@ -18,19 +21,17 @@ namespace Xadrez_Console {
             }
             Console.WriteLine("  A B C D E F G H");
 
-            Console.ForegroundColor = ConsoleColor.Green;
-
             Console.WriteLine();
+            dadosDoTurno(partida);
         }
 
-        internal static void imprimirTabuleiro(Tabuleiro.Tabuleiro tabuleiro, bool[,] posicoesPossiveis) {
+        internal static void imprimirTabuleiro(PartidaDeXadrez partida, bool[,] posicoesPossiveis) {
             Console.Clear();
             Console.BackgroundColor = ConsoleColor.DarkBlue;
             Console.ForegroundColor = ConsoleColor.Cyan;
             Console.Clear();
 
-            ConsoleColor fundoOriginal = Console.BackgroundColor;
-            ConsoleColor fundoAlterado = ConsoleColor.Gray;
+            Tabuleiro.Tabuleiro tabuleiro = partida.tabuleiro;
 
             for (int i = 0; i < tabuleiro.linhas; i++) {
                 Console.Write(8 - i + " ");
@@ -51,10 +52,10 @@ namespace Xadrez_Console {
             }
             Console.WriteLine("  A B C D E F G H");
 
-            Console.ForegroundColor = ConsoleColor.Green;
             Console.BackgroundColor = ConsoleColor.DarkBlue;
 
             Console.WriteLine();
+            dadosDoTurno(partida);
         }
 
         public static void imprimirPeca(Peca peca) {
@@ -83,6 +84,20 @@ namespace Xadrez_Console {
             char coluna = Char.ToUpper(s[0]);
             int linha = int.Parse(s[1] + "");
             return new PosicaoXadrez(coluna, linha);
+        }
+
+        private static void dadosDoTurno(PartidaDeXadrez partida) {
+            if (partida.jogadorAtual == Cor.Branco) {
+                Console.ForegroundColor = ConsoleColor.White;
+            }
+            else {
+                Console.ForegroundColor = ConsoleColor.Black;
+            }
+            Console.WriteLine("Turno: " + partida.turno);
+            Console.WriteLine("Aguardando: Jogador " + partida.jogadorAtual);
+            Console.WriteLine();
+
+            Console.ForegroundColor = ConsoleColor.Green;
         }
     }
 }

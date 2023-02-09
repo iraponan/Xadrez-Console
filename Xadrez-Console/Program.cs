@@ -6,28 +6,31 @@ using Xadrez_Console.Tabuleiro;
 internal class Program {
     private static void Main(string[] args) {
 
-        try {
-            PartidaDeXadrez partida = new PartidaDeXadrez();
+        
+        PartidaDeXadrez partida = new PartidaDeXadrez();
 
-            while (!partida.terminada) {
-                
-                Tela.imprimirTabuleiro(partida.tabuleiro);
+        while (!partida.terminada) {
+            try {
+                Tela.imprimirTabuleiro(partida);
                 
                 Console.Write("Origem: ");
                 Posicao origem = Tela.lerPosicaoXadrez().toPosicao();
+                partida.validarPossicaoDeOrigem(origem);
 
                 bool[,] posicoesPossiveis = partida.tabuleiro.peca(origem).movimentosPossiveis();
 
-                Tela.imprimirTabuleiro(partida.tabuleiro, posicoesPossiveis);
+                Tela.imprimirTabuleiro(partida, posicoesPossiveis);
 
                 Console.Write("Destino: ");
                 Posicao destino = Tela.lerPosicaoXadrez().toPosicao();
+                partida.validarPosicaoDeDestino(origem, destino);
                 
-                partida.executarMovimento(origem, destino);
+                partida.realizarJogada(origem, destino);
             }
-
-        } catch (TabuleiroException e) {
-            Console.WriteLine(e.Message);
+            catch (TabuleiroException e) {
+                Console.WriteLine(e.Message + "\nAperte qualquer tecla para tentar novamente.");
+                Console.ReadKey();
+            }
         }
     }
 }
