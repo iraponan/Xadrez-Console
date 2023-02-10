@@ -75,6 +75,19 @@ namespace Xadrez_Console.JogoDoXadrez {
                 desfazerMovimento(origem, destino, pecaCapturada);
                 throw new TabuleiroException("Você não pode se colocar em cheque!");
             }
+            Peca peca = tabuleiro.peca(destino);
+
+            //Jogada Especial Promoção
+            if (peca is Peao) {
+                if ((peca.cor == Cor.Branco && destino.linha == 0) || (peca.cor == Cor.Preta && destino.linha == 7)) {
+                    peca = tabuleiro.retirarPeca(destino);
+                    pecas.Remove(peca);
+                    Peca dama = new Dama(tabuleiro, peca.cor);
+                    tabuleiro.colocarPeca(dama, destino);
+                    pecas.Add(dama);
+                }
+            }
+
             if (estaEmXeque(adversaria(jogadorAtual))) {
                 xeque = true;
             }
@@ -89,7 +102,6 @@ namespace Xadrez_Console.JogoDoXadrez {
                 mudarJogador();
             }
 
-            Peca peca = tabuleiro.peca(destino);
             //Jogada Especial En Passant
             if (peca is Peao && (destino.linha == origem.linha - 2 || destino.linha == origem.linha + 2)) {
                 vulneravelEnPassant = peca;
