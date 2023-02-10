@@ -14,6 +14,14 @@ namespace Xadrez_Console {
             }
             imprimirPecasCapturadas(partida);
             dadosDoTurno(partida);
+
+            if (partida.xeque) {
+                Console.BackgroundColor = ConsoleColor.DarkRed;
+                Console.ForegroundColor = ConsoleColor.White;
+                Console.WriteLine("XEQUE!!!\n");
+                Console.BackgroundColor = ConsoleColor.DarkBlue;
+                Console.ForegroundColor = ConsoleColor.Green;
+            }
         }
 
         public static void imprimirTabuleiro(Tabuleiro.Tabuleiro tabuleiro) {
@@ -22,7 +30,6 @@ namespace Xadrez_Console {
             Console.ForegroundColor = ConsoleColor.Cyan;
             Console.Clear();
 
-            //Tabuleiro.Tabuleiro tabuleiro = partida.tabuleiro;
 
             for (int i = 0; i < tabuleiro.linhas; i++) {
                 Console.Write(8 - i + " ");
@@ -34,7 +41,6 @@ namespace Xadrez_Console {
             Console.WriteLine("  A B C D E F G H");
 
             Console.WriteLine();
-            //dadosDoTurno(partida);
         }
 
         internal static void imprimirTabuleiro(Tabuleiro.Tabuleiro tabuleiro, bool[,] posicoesPossiveis) {
@@ -42,8 +48,6 @@ namespace Xadrez_Console {
             Console.BackgroundColor = ConsoleColor.DarkBlue;
             Console.ForegroundColor = ConsoleColor.Cyan;
             Console.Clear();
-
-            //Tabuleiro.Tabuleiro tabuleiro = partida.tabuleiro;
 
             for (int i = 0; i < tabuleiro.linhas; i++) {
                 Console.Write(8 - i + " ");
@@ -67,7 +71,6 @@ namespace Xadrez_Console {
             Console.BackgroundColor = ConsoleColor.DarkBlue;
 
             Console.WriteLine();
-            //dadosDoTurno(partida);
         }
 
         public static void imprimirPeca(Peca peca) {
