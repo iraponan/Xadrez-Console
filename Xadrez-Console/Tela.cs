@@ -12,13 +12,28 @@ namespace Xadrez_Console {
             else {
                 imprimirTabuleiro(partida.tabuleiro, posicoesPossiveis);
             }
-            imprimirPecasCapturadas(partida);
-            dadosDoTurno(partida);
 
-            if (partida.xeque) {
-                Console.BackgroundColor = ConsoleColor.DarkRed;
-                Console.ForegroundColor = ConsoleColor.White;
-                Console.WriteLine("XEQUE!!!\n");
+            imprimirPecasCapturadas(partida);
+            if (!partida.terminada) {
+                dadosDoTurno(partida);
+                if (partida.xeque) {
+                    Console.BackgroundColor = ConsoleColor.DarkRed;
+                    Console.ForegroundColor = ConsoleColor.White;
+                    Console.WriteLine("XEQUE!!!\n");
+                    Console.BackgroundColor = ConsoleColor.DarkBlue;
+                    Console.ForegroundColor = ConsoleColor.Green;
+                }
+            }
+            else {
+                if (partida.jogadorAtual == Cor.Branco) {
+                    Console.BackgroundColor = ConsoleColor.DarkRed;
+                    Console.ForegroundColor = ConsoleColor.White;
+                }
+                else {
+                    Console.BackgroundColor = ConsoleColor.DarkRed;
+                    Console.ForegroundColor = ConsoleColor.Black;
+                }
+                Console.WriteLine("\nXEQUEMATE!!!\nVencedor: " + partida.jogadorAtual);
                 Console.BackgroundColor = ConsoleColor.DarkBlue;
                 Console.ForegroundColor = ConsoleColor.Green;
             }

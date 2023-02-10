@@ -44,8 +44,13 @@ namespace Xadrez_Console.JogoDoXadrez {
             else {
                 xeque = false;
             }
-            turno++;
-            mudarJogador();
+            if (testeXequeMate(adversaria(jogadorAtual))) {
+                terminada = true;
+            }
+            else {
+                turno++;
+                mudarJogador();
+            }
         }
 
         public void desfazerMovimento(Posicao origem, Posicao destino, Peca pecaCapturada) {
@@ -134,7 +139,6 @@ namespace Xadrez_Console.JogoDoXadrez {
             if (rei == null) {
                 throw new TabuleiroException("Não tem rei da cor " + cor + " no tabuleiro!");
             }
-
             foreach (Peca peca in pecasEmJogo(adversaria(cor))) {
                 bool[,] matriz = peca.movimentosPossiveis();
                 if (matriz[rei.posicao.linha, rei.posicao.coluna]) {
@@ -142,6 +146,30 @@ namespace Xadrez_Console.JogoDoXadrez {
                 }
             }
             return false;
+        }
+
+        public bool testeXequeMate(Cor cor) {
+            if (!estaEmXeque(cor)) {
+                return false;
+            }
+            foreach (Peca peca in pecasEmJogo(cor)) {
+                bool[,] matriz = peca.movimentosPossiveis();
+                for (int i = 0; i < tabuleiro.linhas; i++) {
+                    for (int j = 0; j < tabuleiro.colunas; j++) {
+                        if (matriz[i, j]) {
+                            Posicao origem = peca.posicao;
+                            Posicao destino = new Posicao(i, j);
+                            Peca pecaCapturada = executarMovimento(origem, destino);
+                            bool testeXeque = estaEmXeque(cor);
+                            desfazerMovimento(origem, destino, pecaCapturada);
+                            if (!testeXeque) {
+                                return false;
+                            }
+                        }
+                    }
+                }
+            }
+            return true;
         }
 
         private void colocarPecas() {

@@ -32,5 +32,6 @@ internal class Program {
                 Console.ReadKey();
             }
         }
+        Tela.imprimirPartida(partida, null);
     }
 }
