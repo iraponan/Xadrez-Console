@@ -24,56 +24,56 @@ namespace Xadrez_Console.JogoDoXadrez {
         }
 
         public override bool[,] movimentosPossiveis() {
-            bool[,] matizDePossibilidades = new bool[tabuleiro.linhas, tabuleiro.colunas];
+            bool[,] matrizDePossibilidades = new bool[tabuleiro.linhas, tabuleiro.colunas];
 
             Posicao pos = new Posicao(0, 0);
 
             //Acima
             pos.definirValores(posicao.linha - 1, posicao.coluna);
             if (tabuleiro.posicaoValida(pos) && podeMover(pos)) {
-                matizDePossibilidades[pos.linha, pos.coluna] = true;
+                matrizDePossibilidades[pos.linha, pos.coluna] = true;
             }
 
             //Nordeste
             pos.definirValores(posicao.linha - 1, posicao.coluna + 1);
             if (tabuleiro.posicaoValida(pos) && podeMover(pos)) {
-                matizDePossibilidades[pos.linha, pos.coluna] = true;
+                matrizDePossibilidades[pos.linha, pos.coluna] = true;
             }
 
             //Direita
             pos.definirValores(posicao.linha, posicao.coluna + 1);
             if (tabuleiro.posicaoValida(pos) && podeMover(pos)) {
-                matizDePossibilidades[pos.linha, pos.coluna] = true;
+                matrizDePossibilidades[pos.linha, pos.coluna] = true;
             }
 
             //Sudeste
             pos.definirValores(posicao.linha + 1, posicao.coluna + 1);
             if (tabuleiro.posicaoValida(pos) && podeMover(pos)) {
-                matizDePossibilidades[pos.linha, pos.coluna] = true;
+                matrizDePossibilidades[pos.linha, pos.coluna] = true;
             }
 
             //Abaixo
             pos.definirValores(posicao.linha + 1, posicao.coluna);
             if (tabuleiro.posicaoValida(pos) && podeMover(pos)) {
-                matizDePossibilidades[pos.linha, pos.coluna] = true;
+                matrizDePossibilidades[pos.linha, pos.coluna] = true;
             }
 
             //Sudoeste
             pos.definirValores(posicao.linha + 1, posicao.coluna - 1);
             if (tabuleiro.posicaoValida(pos) && podeMover(pos)) {
-                matizDePossibilidades[pos.linha, pos.coluna] = true;
+                matrizDePossibilidades[pos.linha, pos.coluna] = true;
             }
 
             //Esquerda
             pos.definirValores(posicao.linha, posicao.coluna - 1);
             if (tabuleiro.posicaoValida(pos) && podeMover(pos)) {
-                matizDePossibilidades[pos.linha, pos.coluna] = true;
+                matrizDePossibilidades[pos.linha, pos.coluna] = true;
             }
 
             //Noroeste
             pos.definirValores(posicao.linha - 1, posicao.coluna - 1);
             if (tabuleiro.posicaoValida(pos) && podeMover(pos)) {
-                matizDePossibilidades[pos.linha, pos.coluna] = true;
+                matrizDePossibilidades[pos.linha, pos.coluna] = true;
             }
 
             //Jogada Especial
@@ -84,7 +84,7 @@ namespace Xadrez_Console.JogoDoXadrez {
                     Posicao p1 = new Posicao(posicao.linha, posicao.coluna + 1);
                     Posicao p2 = new Posicao(posicao.linha, posicao.coluna + 2);
                     if (tabuleiro.peca(p1) == null && tabuleiro.peca(p2) == null) {
-                        matizDePossibilidades[posicao.linha, posicao.coluna + 2] = true;
+                        matrizDePossibilidades[posicao.linha, posicao.coluna + 2] = true;
                     }
                 }
 
@@ -95,12 +95,12 @@ namespace Xadrez_Console.JogoDoXadrez {
                     Posicao p2 = new Posicao(posicao.linha, posicao.coluna - 2);
                     Posicao p3 = new Posicao(posicao.linha, posicao.coluna - 3);
                     if (tabuleiro.peca(p1) == null && tabuleiro.peca(p2) == null && tabuleiro.peca(p3) == null) {
-                        matizDePossibilidades[posicao.linha, posicao.coluna - 2] = true;
+                        matrizDePossibilidades[posicao.linha, posicao.coluna - 2] = true;
                     }
                 }
             }
 
-            return matizDePossibilidades;
+            return matrizDePossibilidades;
         }
     }
 }

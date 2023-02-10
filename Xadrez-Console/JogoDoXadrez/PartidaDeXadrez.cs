@@ -10,12 +10,15 @@ namespace Xadrez_Console.JogoDoXadrez {
         private HashSet<Peca> pecas;
         private HashSet<Peca> capturadas;
         public bool xeque { get; private set; }
+        public Peca vulneravelEnPassant { get; private set; }
 
         public PartidaDeXadrez() {
             tabuleiro = new Tabuleiro.Tabuleiro(8, 8);
             turno = 1;
             jogadorAtual = Cor.Branco;
             terminada = false;
+            xeque = false;
+            vulneravelEnPassant = null;
             pecas = new HashSet<Peca>();
             capturadas= new HashSet<Peca>();
             colocarPecas();
@@ -48,6 +51,21 @@ namespace Xadrez_Console.JogoDoXadrez {
                 tabuleiro.colocarPeca(torre, destinoTorre);
             }
 
+            //Jogada Especial En Passant
+            if (peca is Peao) {
+                if (origem.coluna != destino.coluna && pecaCapturada == null) {
+                    Posicao p;
+                    if (peca.cor == Cor.Branco) {
+                        p = new Posicao(destino.linha + 1, destino.coluna);
+                    }
+                    else {
+                        p = new Posicao(destino.linha - 1, destino.coluna);
+                    }
+                    pecaCapturada = tabuleiro.retirarPeca(p);
+                    capturadas.Add(pecaCapturada);
+                }
+            }
+
             return pecaCapturada;
         }
 
@@ -69,6 +87,15 @@ namespace Xadrez_Console.JogoDoXadrez {
             else {
                 turno++;
                 mudarJogador();
+            }
+
+            Peca peca = tabuleiro.peca(destino);
+            //Jogada Especial En Passant
+            if (peca is Peao && (destino.linha == origem.linha - 2 || destino.linha == origem.linha + 2)) {
+                vulneravelEnPassant = peca;
+            }
+            else {
+                vulneravelEnPassant = null;
             }
         }
 
@@ -97,6 +124,21 @@ namespace Xadrez_Console.JogoDoXadrez {
                 Peca torre = tabuleiro.retirarPeca(destinoTorre);
                 torre.decrementarQtdMovimentos();
                 tabuleiro.colocarPeca(torre, origemTorre);
+            }
+
+            //Jogada Especial En Passant
+            if (peca is Peao) {
+                if (origem.coluna != destino.coluna && pecaCapturada == vulneravelEnPassant) {
+                    Peca peao = tabuleiro.retirarPeca(destino);
+                    Posicao p;
+                    if (peca.cor == Cor.Branco) {
+                        p = new Posicao(3, destino.coluna);
+                    }
+                    else {
+                        p = new Posicao(4, destino.coluna);
+                    }
+                    tabuleiro.colocarPeca(peao, p);
+                }
             }
         }
 
@@ -218,14 +260,14 @@ namespace Xadrez_Console.JogoDoXadrez {
             colocarNovaPeca('F', 1, new Bispo(tabuleiro, Cor.Branco));
             colocarNovaPeca('G', 1, new Cavalo(tabuleiro, Cor.Branco));
             colocarNovaPeca('H', 1, new Torre(tabuleiro, Cor.Branco));
-            colocarNovaPeca('A', 2, new Peao(tabuleiro, Cor.Branco));
-            colocarNovaPeca('B', 2, new Peao(tabuleiro, Cor.Branco));
-            colocarNovaPeca('C', 2, new Peao(tabuleiro, Cor.Branco));
-            colocarNovaPeca('D', 2, new Peao(tabuleiro, Cor.Branco));
-            colocarNovaPeca('E', 2, new Peao(tabuleiro, Cor.Branco));
-            colocarNovaPeca('F', 2, new Peao(tabuleiro, Cor.Branco));
-            colocarNovaPeca('G', 2, new Peao(tabuleiro, Cor.Branco));
-            colocarNovaPeca('H', 2, new Peao(tabuleiro, Cor.Branco));
+            colocarNovaPeca('A', 2, new Peao(tabuleiro, Cor.Branco, this));
+            colocarNovaPeca('B', 2, new Peao(tabuleiro, Cor.Branco, this));
+            colocarNovaPeca('C', 2, new Peao(tabuleiro, Cor.Branco, this));
+            colocarNovaPeca('D', 2, new Peao(tabuleiro, Cor.Branco, this));
+            colocarNovaPeca('E', 2, new Peao(tabuleiro, Cor.Branco, this));
+            colocarNovaPeca('F', 2, new Peao(tabuleiro, Cor.Branco, this));
+            colocarNovaPeca('G', 2, new Peao(tabuleiro, Cor.Branco, this));
+            colocarNovaPeca('H', 2, new Peao(tabuleiro, Cor.Branco, this));
 
             colocarNovaPeca('A', 8, new Torre(tabuleiro, Cor.Preta));
             colocarNovaPeca('B', 8, new Cavalo(tabuleiro, Cor.Preta));
@@ -235,14 +277,14 @@ namespace Xadrez_Console.JogoDoXadrez {
             colocarNovaPeca('F', 8, new Bispo(tabuleiro, Cor.Preta));
             colocarNovaPeca('G', 8, new Cavalo(tabuleiro, Cor.Preta));
             colocarNovaPeca('H', 8, new Torre(tabuleiro, Cor.Preta));
-            colocarNovaPeca('A', 7, new Peao(tabuleiro, Cor.Preta));
-            colocarNovaPeca('B', 7, new Peao(tabuleiro, Cor.Preta));
-            colocarNovaPeca('C', 7, new Peao(tabuleiro, Cor.Preta));
-            colocarNovaPeca('D', 7, new Peao(tabuleiro, Cor.Preta));
-            colocarNovaPeca('E', 7, new Peao(tabuleiro, Cor.Preta));
-            colocarNovaPeca('F', 7, new Peao(tabuleiro, Cor.Preta));
-            colocarNovaPeca('G', 7, new Peao(tabuleiro, Cor.Preta));
-            colocarNovaPeca('H', 7, new Peao(tabuleiro, Cor.Preta));
+            colocarNovaPeca('A', 7, new Peao(tabuleiro, Cor.Preta, this));
+            colocarNovaPeca('B', 7, new Peao(tabuleiro, Cor.Preta, this));
+            colocarNovaPeca('C', 7, new Peao(tabuleiro, Cor.Preta, this));
+            colocarNovaPeca('D', 7, new Peao(tabuleiro, Cor.Preta, this));
+            colocarNovaPeca('E', 7, new Peao(tabuleiro, Cor.Preta, this));
+            colocarNovaPeca('F', 7, new Peao(tabuleiro, Cor.Preta, this));
+            colocarNovaPeca('G', 7, new Peao(tabuleiro, Cor.Preta, this));
+            colocarNovaPeca('H', 7, new Peao(tabuleiro, Cor.Preta, this));
         }
     }
 }

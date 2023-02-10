@@ -2,7 +2,12 @@
 
 namespace Xadrez_Console.JogoDoXadrez {
     internal class Peao : Peca {
-        public Peao(Tabuleiro.Tabuleiro tabuleiro, Cor cor) : base(tabuleiro, cor) { }
+
+        private PartidaDeXadrez partida;
+
+        public Peao(Tabuleiro.Tabuleiro tabuleiro, Cor cor, PartidaDeXadrez partida) : base(tabuleiro, cor) { 
+            this.partida = partida;
+        }
 
         public override string ToString() {
             return "P";
@@ -18,48 +23,74 @@ namespace Xadrez_Console.JogoDoXadrez {
         }
 
         public override bool[,] movimentosPossiveis() {
-            bool[,] matizDePossibilidades = new bool[tabuleiro.linhas, tabuleiro.colunas];
+            bool[,] matrizDePossibilidades = new bool[tabuleiro.linhas, tabuleiro.colunas];
 
             Posicao pos = new Posicao(0, 0);
 
             if (cor == Cor.Branco) {
                 pos.definirValores(posicao.linha - 1, posicao.coluna);
                 if (tabuleiro.posicaoValida(pos) && livre(pos)) {
-                    matizDePossibilidades[pos.linha, pos.coluna] = true;
+                    matrizDePossibilidades[pos.linha, pos.coluna] = true;
                 }
                 pos.definirValores(posicao.linha - 2, posicao.coluna);
                 if (tabuleiro.posicaoValida(pos) && livre(pos) && qtdMovimentos == 0) {
-                    matizDePossibilidades[pos.linha, pos.coluna] = true;
+                    matrizDePossibilidades[pos.linha, pos.coluna] = true;
                 }
                 pos.definirValores(posicao.linha - 1, posicao.coluna - 1);
                 if (tabuleiro.posicaoValida(pos) && existeInimigo(pos)) {
-                    matizDePossibilidades[pos.linha, pos.coluna] = true;
+                    matrizDePossibilidades[pos.linha, pos.coluna] = true;
                 }
                 pos.definirValores(posicao.linha - 1, posicao.coluna + 1);
                 if (tabuleiro.posicaoValida(pos) && existeInimigo(pos)) {
-                    matizDePossibilidades[pos.linha, pos.coluna] = true;
+                    matrizDePossibilidades[pos.linha, pos.coluna] = true;
+                }
+                // Jogada Especial En Passant
+                if (posicao.linha == 3) {
+                    //Esquerda
+                    Posicao esquerda = new Posicao(posicao.linha, posicao.coluna - 1);
+                    if (tabuleiro.posicaoValida(esquerda) && existeInimigo(esquerda) && tabuleiro.peca(esquerda) == partida.vulneravelEnPassant) {
+                        matrizDePossibilidades[esquerda.linha - 1, esquerda.coluna] = true;
+                    }
+                    //Direita
+                    Posicao direita = new Posicao(posicao.linha, posicao.coluna + 1);
+                    if (tabuleiro.posicaoValida(direita) && existeInimigo(direita) && tabuleiro.peca(direita) == partida.vulneravelEnPassant) {
+                        matrizDePossibilidades[direita.linha - 1, direita.coluna] = true;
+                    }
                 }
             }
             else {
                 pos.definirValores(posicao.linha + 1, posicao.coluna);
                 if (tabuleiro.posicaoValida(pos) && livre(pos)) {
-                    matizDePossibilidades[pos.linha, pos.coluna] = true;
+                    matrizDePossibilidades[pos.linha, pos.coluna] = true;
                 }
                 pos.definirValores(posicao.linha + 2, posicao.coluna);
                 if (tabuleiro.posicaoValida(pos) && livre(pos) && qtdMovimentos == 0) {
-                    matizDePossibilidades[pos.linha, pos.coluna] = true;
+                    matrizDePossibilidades[pos.linha, pos.coluna] = true;
                 }
                 pos.definirValores(posicao.linha + 1, posicao.coluna - 1);
                 if (tabuleiro.posicaoValida(pos) && existeInimigo(pos)) {
-                    matizDePossibilidades[pos.linha, pos.coluna] = true;
+                    matrizDePossibilidades[pos.linha, pos.coluna] = true;
                 }
                 pos.definirValores(posicao.linha + 1, posicao.coluna + 1);
                 if (tabuleiro.posicaoValida(pos) && existeInimigo(pos)) {
-                    matizDePossibilidades[pos.linha, pos.coluna] = true;
+                    matrizDePossibilidades[pos.linha, pos.coluna] = true;
+                }
+                // Jogada Especial En Passant
+                if (posicao.linha == 4) {
+                    //Esquerda
+                    Posicao esquerda = new Posicao(posicao.linha, posicao.coluna - 1);
+                    if (tabuleiro.posicaoValida(esquerda) && existeInimigo(esquerda) && tabuleiro.peca(esquerda) == partida.vulneravelEnPassant) {
+                        matrizDePossibilidades[esquerda.linha + 1, esquerda.coluna] = true;
+                    }
+                    //Direita
+                    Posicao direita = new Posicao(posicao.linha, posicao.coluna + 1);
+                    if (tabuleiro.posicaoValida(direita) && existeInimigo(direita) && tabuleiro.peca(direita) == partida.vulneravelEnPassant) {
+                        matrizDePossibilidades[direita.linha + 1, direita.coluna] = true;
+                    }
                 }
             }
 
-            return matizDePossibilidades;
+            return matrizDePossibilidades;
         }
     }
 }

@@ -14,14 +14,14 @@ namespace Xadrez_Console.JogoDoXadrez {
         }
 
         public override bool[,] movimentosPossiveis() {
-            bool[,] matizDePossibilidades = new bool[tabuleiro.linhas, tabuleiro.colunas];
+            bool[,] matrizDePossibilidades = new bool[tabuleiro.linhas, tabuleiro.colunas];
 
             Posicao pos = new Posicao(0, 0);
 
             //Esquerda
             pos.definirValores(posicao.linha, posicao.coluna - 1);
             while (tabuleiro.posicaoValida(pos) && podeMover(pos)) {
-                matizDePossibilidades[pos.linha, pos.coluna] = true;
+                matrizDePossibilidades[pos.linha, pos.coluna] = true;
                 if (tabuleiro.peca(pos) != null && tabuleiro.peca(pos).cor != cor) {
                     break;
                 }
@@ -31,7 +31,7 @@ namespace Xadrez_Console.JogoDoXadrez {
             //Direita
             pos.definirValores(posicao.linha, posicao.coluna + 1);
             while (tabuleiro.posicaoValida(pos) && podeMover(pos)) {
-                matizDePossibilidades[pos.linha, pos.coluna] = true;
+                matrizDePossibilidades[pos.linha, pos.coluna] = true;
                 if (tabuleiro.peca(pos) != null && tabuleiro.peca(pos).cor != cor) {
                     break;
                 }
@@ -41,7 +41,7 @@ namespace Xadrez_Console.JogoDoXadrez {
             //Acima
             pos.definirValores(posicao.linha - 1, posicao.coluna);
             while (tabuleiro.posicaoValida(pos) && podeMover(pos)) {
-                matizDePossibilidades[pos.linha, pos.coluna] = true;
+                matrizDePossibilidades[pos.linha, pos.coluna] = true;
                 if (tabuleiro.peca(pos) != null && tabuleiro.peca(pos).cor != cor) {
                     break;
                 }
@@ -51,7 +51,7 @@ namespace Xadrez_Console.JogoDoXadrez {
             //Abaixo
             pos.definirValores(posicao.linha + 1, posicao.coluna);
             while (tabuleiro.posicaoValida(pos) && podeMover(pos)) {
-                matizDePossibilidades[pos.linha, pos.coluna] = true;
+                matrizDePossibilidades[pos.linha, pos.coluna] = true;
                 if (tabuleiro.peca(pos) != null && tabuleiro.peca(pos).cor != cor) {
                     break;
                 }
@@ -61,7 +61,7 @@ namespace Xadrez_Console.JogoDoXadrez {
             //Noroeste
             pos.definirValores(posicao.linha - 1, posicao.coluna - 1);
             while (tabuleiro.posicaoValida(pos) && podeMover(pos)) {
-                matizDePossibilidades[pos.linha, pos.coluna] = true;
+                matrizDePossibilidades[pos.linha, pos.coluna] = true;
                 if (tabuleiro.peca(pos) != null && tabuleiro.peca(pos).cor != cor) {
                     break;
                 }
@@ -71,7 +71,7 @@ namespace Xadrez_Console.JogoDoXadrez {
             //Nordeste
             pos.definirValores(posicao.linha - 1, posicao.coluna + 1);
             while (tabuleiro.posicaoValida(pos) && podeMover(pos)) {
-                matizDePossibilidades[pos.linha, pos.coluna] = true;
+                matrizDePossibilidades[pos.linha, pos.coluna] = true;
                 if (tabuleiro.peca(pos) != null && tabuleiro.peca(pos).cor != cor) {
                     break;
                 }
@@ -81,7 +81,7 @@ namespace Xadrez_Console.JogoDoXadrez {
             //Suldeste
             pos.definirValores(posicao.linha + 1, posicao.coluna + 1);
             while (tabuleiro.posicaoValida(pos) && podeMover(pos)) {
-                matizDePossibilidades[pos.linha, pos.coluna] = true;
+                matrizDePossibilidades[pos.linha, pos.coluna] = true;
                 if (tabuleiro.peca(pos) != null && tabuleiro.peca(pos).cor != cor) {
                     break;
                 }
@@ -91,14 +91,14 @@ namespace Xadrez_Console.JogoDoXadrez {
             //Suldoeste
             pos.definirValores(posicao.linha + 1, posicao.coluna - 1);
             while (tabuleiro.posicaoValida(pos) && podeMover(pos)) {
-                matizDePossibilidades[pos.linha, pos.coluna] = true;
+                matrizDePossibilidades[pos.linha, pos.coluna] = true;
                 if (tabuleiro.peca(pos) != null && tabuleiro.peca(pos).cor != cor) {
                     break;
                 }
                 pos.definirValores(pos.linha + 1, pos.coluna - 1);
             }
 
-            return matizDePossibilidades;
+            return matrizDePossibilidades;
         }
     }
 }
