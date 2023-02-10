@@ -14,91 +14,91 @@ namespace Xadrez_Console.JogoDoXadrez {
         }
 
         public override bool[,] movimentosPossiveis() {
-            bool[,] matriz = new bool[tabuleiro.linhas, tabuleiro.colunas];
+            bool[,] matizDePossibilidades = new bool[tabuleiro.linhas, tabuleiro.colunas];
 
             Posicao pos = new Posicao(0, 0);
 
             //Esquerda
             pos.definirValores(posicao.linha, posicao.coluna - 1);
             while (tabuleiro.posicaoValida(pos) && podeMover(pos)) {
-                matriz[pos.linha, pos.coluna] = true;
+                matizDePossibilidades[pos.linha, pos.coluna] = true;
                 if (tabuleiro.peca(pos) != null && tabuleiro.peca(pos).cor != cor) {
                     break;
                 }
-                pos.definirValores(pos.coluna, pos.linha - 1);
+                pos.definirValores(pos.linha, pos.coluna - 1);
             }
 
             //Direita
             pos.definirValores(posicao.linha, posicao.coluna + 1);
             while (tabuleiro.posicaoValida(pos) && podeMover(pos)) {
-                matriz[pos.linha, pos.coluna] = true;
+                matizDePossibilidades[pos.linha, pos.coluna] = true;
                 if (tabuleiro.peca(pos) != null && tabuleiro.peca(pos).cor != cor) {
                     break;
                 }
-                pos.definirValores(pos.coluna, pos.linha + 1);
+                pos.definirValores(pos.linha, pos.coluna + 1);
             }
 
             //Acima
             pos.definirValores(posicao.linha - 1, posicao.coluna);
             while (tabuleiro.posicaoValida(pos) && podeMover(pos)) {
-                matriz[pos.linha, pos.coluna] = true;
+                matizDePossibilidades[pos.linha, pos.coluna] = true;
                 if (tabuleiro.peca(pos) != null && tabuleiro.peca(pos).cor != cor) {
                     break;
                 }
-                pos.definirValores(pos.coluna - 1, pos.linha);
+                pos.definirValores(pos.linha - 1, pos.coluna);
             }
 
             //Abaixo
             pos.definirValores(posicao.linha + 1, posicao.coluna);
             while (tabuleiro.posicaoValida(pos) && podeMover(pos)) {
-                matriz[pos.linha, pos.coluna] = true;
+                matizDePossibilidades[pos.linha, pos.coluna] = true;
                 if (tabuleiro.peca(pos) != null && tabuleiro.peca(pos).cor != cor) {
                     break;
                 }
-                pos.definirValores(pos.coluna + 1, pos.linha);
+                pos.definirValores(pos.linha + 1, pos.coluna);
             }
 
             //Noroeste
             pos.definirValores(posicao.linha - 1, posicao.coluna - 1);
             while (tabuleiro.posicaoValida(pos) && podeMover(pos)) {
-                matriz[pos.linha, pos.coluna] = true;
+                matizDePossibilidades[pos.linha, pos.coluna] = true;
                 if (tabuleiro.peca(pos) != null && tabuleiro.peca(pos).cor != cor) {
                     break;
                 }
-                pos.definirValores(pos.coluna - 1, pos.linha - 1);
+                pos.definirValores(pos.linha - 1, pos.coluna - 1);
             }
 
             //Nordeste
             pos.definirValores(posicao.linha - 1, posicao.coluna + 1);
             while (tabuleiro.posicaoValida(pos) && podeMover(pos)) {
-                matriz[pos.linha, pos.coluna] = true;
+                matizDePossibilidades[pos.linha, pos.coluna] = true;
                 if (tabuleiro.peca(pos) != null && tabuleiro.peca(pos).cor != cor) {
                     break;
                 }
-                pos.definirValores(pos.coluna - 1, pos.linha + 1);
+                pos.definirValores(pos.linha - 1, pos.coluna + 1);
             }
 
             //Suldeste
             pos.definirValores(posicao.linha + 1, posicao.coluna + 1);
             while (tabuleiro.posicaoValida(pos) && podeMover(pos)) {
-                matriz[pos.linha, pos.coluna] = true;
+                matizDePossibilidades[pos.linha, pos.coluna] = true;
                 if (tabuleiro.peca(pos) != null && tabuleiro.peca(pos).cor != cor) {
                     break;
                 }
-                pos.definirValores(pos.coluna + 1, pos.linha + 1);
+                pos.definirValores(pos.linha + 1, pos.coluna + 1);
             }
 
             //Suldoeste
             pos.definirValores(posicao.linha + 1, posicao.coluna - 1);
             while (tabuleiro.posicaoValida(pos) && podeMover(pos)) {
-                matriz[pos.linha, pos.coluna] = true;
+                matizDePossibilidades[pos.linha, pos.coluna] = true;
                 if (tabuleiro.peca(pos) != null && tabuleiro.peca(pos).cor != cor) {
                     break;
                 }
-                pos.definirValores(pos.coluna + 1, pos.linha - 1);
+                pos.definirValores(pos.linha + 1, pos.coluna - 1);
             }
 
-            return matriz;
+            return matizDePossibilidades;
         }
     }
 }

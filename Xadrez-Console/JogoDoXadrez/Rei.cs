@@ -2,7 +2,11 @@
 
 namespace Xadrez_Console.JogoDoXadrez {
     internal class Rei : Peca {
-        public Rei(Tabuleiro.Tabuleiro tabuleiro, Cor cor) : base(tabuleiro, cor) {
+
+        private PartidaDeXadrez partida;
+
+        public Rei(Tabuleiro.Tabuleiro tabuleiro, Cor cor, PartidaDeXadrez partida) : base(tabuleiro, cor) {
+            this.partida = partida;
         }
 
         public override string ToString() {
@@ -12,6 +16,11 @@ namespace Xadrez_Console.JogoDoXadrez {
         private bool podeMover(Posicao posicao) {
             Peca peca = tabuleiro.peca(posicao);
             return peca == null || peca.cor != this.cor;
+        }
+
+        private bool testeTorreParaRoque(Posicao posicao) {
+            Peca peca = tabuleiro.peca(posicao);
+            return peca != null && peca is Torre && peca.cor == cor && peca.qtdMovimentos == 0;
         }
 
         public override bool[,] movimentosPossiveis() {
@@ -65,6 +74,30 @@ namespace Xadrez_Console.JogoDoXadrez {
             pos.definirValores(posicao.linha - 1, posicao.coluna - 1);
             if (tabuleiro.posicaoValida(pos) && podeMover(pos)) {
                 matizDePossibilidades[pos.linha, pos.coluna] = true;
+            }
+
+            //Jogada Especial
+            if (qtdMovimentos == 0 && !partida.xeque) {
+                //(Roque Pequeno)
+                Posicao posicaoTorre1 = new Posicao(posicao.linha, posicao.coluna + 3);
+                if (testeTorreParaRoque(posicaoTorre1)) {
+                    Posicao p1 = new Posicao(posicao.linha, posicao.coluna + 1);
+                    Posicao p2 = new Posicao(posicao.linha, posicao.coluna + 2);
+                    if (tabuleiro.peca(p1) == null && tabuleiro.peca(p2) == null) {
+                        matizDePossibilidades[posicao.linha, posicao.coluna + 2] = true;
+                    }
+                }
+
+                //(Roque Grande)
+                Posicao posicaoTorre2 = new Posicao(posicao.linha, posicao.coluna - 4);
+                if (testeTorreParaRoque(posicaoTorre2)) {
+                    Posicao p1 = new Posicao(posicao.linha, posicao.coluna - 1);
+                    Posicao p2 = new Posicao(posicao.linha, posicao.coluna - 2);
+                    Posicao p3 = new Posicao(posicao.linha, posicao.coluna - 3);
+                    if (tabuleiro.peca(p1) == null && tabuleiro.peca(p2) == null && tabuleiro.peca(p3) == null) {
+                        matizDePossibilidades[posicao.linha, posicao.coluna - 2] = true;
+                    }
+                }
             }
 
             return matizDePossibilidades;
