@@ -12,7 +12,7 @@ namespace Xadrez_Console.JogoDoXadrez {
         }
 
         public Posicao toPosicao() {
-            return new Posicao(8 - linha, coluna - 'A');
+            return new Posicao(8 - linha, Char.ToUpper(coluna) - 'A');
         }
 
         public override string ToString() {

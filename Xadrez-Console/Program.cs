@@ -11,7 +11,7 @@ internal class Program {
 
         while (!partida.terminada) {
             try {
-                Tela.imprimirTabuleiro(partida);
+                Tela.imprimirPartida(partida, null);
                 
                 Console.Write("Origem: ");
                 Posicao origem = Tela.lerPosicaoXadrez().toPosicao();
@@ -19,7 +19,7 @@ internal class Program {
 
                 bool[,] posicoesPossiveis = partida.tabuleiro.peca(origem).movimentosPossiveis();
 
-                Tela.imprimirTabuleiro(partida, posicoesPossiveis);
+                Tela.imprimirPartida(partida, posicoesPossiveis);
 
                 Console.Write("Destino: ");
                 Posicao destino = Tela.lerPosicaoXadrez().toPosicao();
